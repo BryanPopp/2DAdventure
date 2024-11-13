@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,6 +30,10 @@ public class PlayerController : MonoBehaviour
     public InputAction talkAction;
 
     AudioSource audioSource;
+
+    public int score;
+    public bool gameOverstate;
+
     
     // Start is called before the first frame update
     void Start()
@@ -44,6 +49,7 @@ public class PlayerController : MonoBehaviour
             talkAction.Enable();
             talkAction.performed += FindFriend;
             audioSource = GetComponent<AudioSource>();
+            gameOverstate = false;
         }
 
     // Update is called once per frame
@@ -65,6 +71,18 @@ public class PlayerController : MonoBehaviour
                     if (damageCooldown < 0)
                         {
                             isInvincible = false;
+                        }
+                }
+            if (score == 4 || health == 0)
+                {
+                    GameOver();
+                }
+
+            if(Input.GetKey(KeyCode.R))
+                {
+                    if (gameOverstate == true)
+                        {
+                            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                         }
                 }
         }
@@ -119,5 +137,23 @@ public class PlayerController : MonoBehaviour
          {
             audioSource.PlayOneShot(clip);
          }
+
+    public void ChangeScore (int Scoreamount)
+        {
+         
+        score = score + Scoreamount;
+        Debug.Log(score);
+         
+        }
+
+    public void GameOver()
+    {
+        
+        UIHandler.instance.DisplayGameOver();
+        speed = 0;
+        gameOverstate = true;
+
+    
+    }
 }
 

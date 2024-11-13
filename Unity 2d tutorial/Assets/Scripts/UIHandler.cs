@@ -13,6 +13,8 @@ public class UIHandler : MonoBehaviour
     private VisualElement m_NonPlayerDialogue;
     private float m_TimerDisplay;
 
+    private VisualElement m_GameOverText;
+    
     private void Awake()
       {
          instance = this;
@@ -27,6 +29,8 @@ public class UIHandler : MonoBehaviour
          m_NonPlayerDialogue = uiDocument.rootVisualElement.Q<VisualElement>("NPCDialogue");
          m_NonPlayerDialogue.style.display = DisplayStyle.None;
          m_TimerDisplay = -1.0f;
+         m_GameOverText = uiDocument.rootVisualElement.Q<VisualElement>("GameOverText");
+         m_GameOverText.style.display = DisplayStyle.None;
       }
 
     public void SetHealthValue(float percentage)
@@ -50,6 +54,11 @@ public class UIHandler : MonoBehaviour
       {
          m_NonPlayerDialogue.style.display = DisplayStyle.Flex;
          m_TimerDisplay = displayTime;
+      }
+
+   public void DisplayGameOver()
+      {
+        m_GameOverText.style.display = DisplayStyle.Flex; 
       }
     
 }

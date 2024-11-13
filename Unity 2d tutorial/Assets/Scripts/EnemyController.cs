@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour
 
     public ParticleSystem smokeEffect;
 
+     private PlayerController playerController;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,16 @@ public class EnemyController : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
         animator = GetComponent<Animator>();
+        GameObject playerControllerObject = GameObject.FindWithTag("RubyController");
+         if (playerControllerObject != null)
+        {
+            playerController = playerControllerObject.GetComponent<PlayerController>();
+            print ("Found the GameConroller Script!");
+        }
+        if (playerController == null)
+        {
+            print ("Cannot find GameController Script!");
+        }
     }
 
     void Update()
@@ -82,6 +94,10 @@ public class EnemyController : MonoBehaviour
        rigidbody2d.simulated = false;
        animator.SetTrigger("Fixed");
        smokeEffect.Stop();
+       if (playerController != null)
+       {
+         playerController.ChangeScore(1);
+       }
    }
 
 }
